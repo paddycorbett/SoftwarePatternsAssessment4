@@ -1,3 +1,4 @@
+package com.example.dit.resteasy;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;

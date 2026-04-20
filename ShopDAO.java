@@ -1,4 +1,7 @@
+package com.example.dit.resteasy;
 
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -42,6 +45,11 @@ public class ShopDAO {
 		em.close();
 		return updatedObject;
 	}
+	
+	public List<Product> getAllProducts() {
+        EntityManager em = emf.createEntityManager();
+        return em.createQuery("SELECT p FROM product p", Product.class).getResultList();
+    }
 	
 	
 
