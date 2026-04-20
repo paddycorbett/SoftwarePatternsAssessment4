@@ -10,11 +10,7 @@ import javax.persistence.Persistence;
 
 
 public class ShopDAO {
-	
-	//1. Get the EntityManagerFactory 
-	//2. Get the EntityManager from the Factory when we need to 
-	 //talk to the DB
-	//3. Call one of the operations on the EntityManager i.e., persist
+
 	
 	private static EntityManagerFactory emf = 
 			Persistence.createEntityManagerFactory("ShopPU"); 	
@@ -22,7 +18,7 @@ public class ShopDAO {
 	public ShopDAO() {
 	}
 	
-	public void persistSubscriber(Object object) {
+	public void persist(Object object) {
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		em.persist(object);
@@ -46,9 +42,39 @@ public class ShopDAO {
 		return updatedObject;
 	}
 	
+	
+	
+	////// Product queries/////////
 	public List<Product> getAllProducts() {
         EntityManager em = emf.createEntityManager();
-        return em.createQuery("SELECT p FROM product p", Product.class).getResultList();
+        try 
+        {
+        	return em.createQuery("SELECT p FROM Product p", Product.class).getResultList();
+        } finally 
+        {
+            em.close();
+        }
+        
+        
+    }
+	
+	
+	
+	/////// User Queries /////////
+	
+	public User getUserByUsername(String username) {
+	    EntityManager em = emf.createEntityManager();
+	    List<User> users = em.createQuery("SELECT u FROM User u WHERE u.username = :username", User.class).setParameter("username", username).getResultList();
+	    em.close();
+	    if (users.isEmpty()) return null;
+	    else return users.get(0);
+	}
+	
+	public List<User> getAllUsers() {
+        EntityManager em = emf.createEntityManager();
+        List<User> users = em.createQuery("SELECT u FROM User u", User.class).getResultList();
+        em.close();
+        return users;
     }
 	
 	
